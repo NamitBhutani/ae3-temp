@@ -8,6 +8,7 @@ from statsmodels.tsa.vector_ar.vecm import coint_johansen
 from statsmodels.stats.diagnostic import  het_breuschpagan
 from statsmodels.stats.diagnostic import acorr_breusch_godfrey
 from statsmodels.stats.stattools import jarque_bera
+from statsmodels.tsa.ardl import ARDL, ardl_select_order
 import scipy.stats as stats
 import warnings
 warnings.filterwarnings('ignore')
@@ -370,6 +371,27 @@ def plot_residual_histogram(residuals, title):
     plt.grid(True)
     plt.savefig(title)
 
+def build_ardl_model(data, p=1, q=1):
+    y = data['WPI']
+    exog = data[['BANK_RATE', 'CRR', 'SLR']]
+    ardl_mod = ARDL(endog=y, lags=p, exog=exog, exog_lags=q).fit()
+    return ardl_mod
+
+
+def build_ardl_model_auto(data, maxlag=4, ic='aic', trend='c'):
+    """
+    Automatically select ARDL(p,q) orders based on information criterion.
+    maxlag: maximum number of lags to consider for both endogenous and exogenous variables
+    ic: 'aic', 'bic', or 'hqic'
+    trend: 'n', 'c', or 'ct'
+    """
+    y = data['WPI']
+    exog = data[['BANK_RATE', 'CRR', 'SLR']]
+    sel = ardl_select_order(endog=y, exog=exog, maxorder=maxlag,maxlag=maxlag, ic=ic, trend=trend)
+    print(f"Exogeneous lags: {sel.dl_lags}")
+    print(f"Lags included in model: {sel.ar_lags}")
+    auto_mod = sel.model.fit()
+    return auto_mod, sel
 def main():    
     wpi_data = process_wpi_variation_data("HBS Table No. 230 _ Wholesale Price Index - Annual Variation.xlsx")
     rbi_data = parse_rbi_policy_rates("HBS Table No. 43 _ Major Monetary Policy Rates and Reserve Requirements - Bank Rate, LAF (Repo, Reverse Repo and MSF) Rates, CRR & SLR.xlsx")
@@ -432,5 +454,53 @@ def main():
     plt.savefig('Residuals of the Error Correction Model (ECM)')
     
     plot_residual_histogram(ecm_results['residuals'], 'Histogram of ECM Residuals')
+
+    auto_ardl_model, auto_sel = build_ardl_model_auto(data, maxlag=4, ic='aic', trend='c')
+    auto_ardl_model, auto_sel = build_ardl_model_auto(data, maxlag=4, ic='aic', trend='c')
+    
+    # Print all relevant ARDL model information
+    print("\n======================= ARDL MODEL INFORMATION =======================")
+    print("\nARDL Model Summary:")
+    print(auto_ardl_model.summary())
+    
+    # print("\nARDL Bounds Test Results:")
+    # bounds_test = auto_ardl_model.bounds_test()
+    # print(bounds_test)
+    
+    print("\nARDL Selected Order Information:")
+    print(f"Information criterion value: {auto_sel.aic}")
+    print(f"Endogenous (AR) lags: {auto_sel.ar_lags}")
+    print(f"Exogenous variable lags: {auto_sel.dl_lags}")
+    
+    print("\nARDL Predictions:")
+    predictions = auto_ardl_model.predict()
+    print(f"First 5 fitted values: {predictions[:5]}")
+    
+    print("\nARDL Residuals:")
+    residuals = auto_ardl_model.resid
+    print(f"First 5 residuals: {residuals[:5]}")
+    print(f"Residual statistics - Mean: {residuals.mean():.6f}, Std: {residuals.std():.6f}")
+    
+    print("\nARDL Coefficients with Confidence Intervals:")
+    ci = auto_ardl_model.conf_int()
+    coefficients = auto_ardl_model.params
+    combined = pd.DataFrame({'coef': coefficients, 'lower': ci.iloc[:,0], 'upper': ci.iloc[:,1]})
+    print(combined)
+    
+    # Plot ARDL model residuals
+    plt.figure(figsize=(12, 6))
+    plt.plot(residuals)
+    plt.title('Residuals of the ARDL Model')
+    plt.axhline(y=0, color='r', linestyle='-')
+    plt.grid(True)
+    plt.savefig('Residuals of the ARDL Model')
+    
+    # Plot histogram of ARDL residuals
+    plot_residual_histogram(residuals, 'Histogram of ARDL Residuals')
+    
+    # Diagnostic tests for ARDL model
+    print("\nARDL Model Diagnostic Tests:")
+    ardl_jb = jarque_bera_test(residuals)
+    print(f"Jarque-Bera Test - Statistic: {ardl_jb['jb_stat']:.4f}, p-value: {ardl_jb['jb_p_value']:.4f}")
 
 main()

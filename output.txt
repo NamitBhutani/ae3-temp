@@ -1,0 +1,196 @@
+
+Regression Model Results:
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                    WPI   R-squared:                       0.522
+Model:                            OLS   Adj. R-squared:                  0.460
+Method:                 Least Squares   F-statistic:                     8.371
+Date:                Thu, 24 Apr 2025   Prob (F-statistic):           0.000609
+Time:                        20:42:17   Log-Likelihood:                -62.292
+No. Observations:                  27   AIC:                             132.6
+Df Residuals:                      23   BIC:                             137.8
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const         -2.7730      4.390     -0.632      0.534     -11.854       6.308
+BANK_RATE     -0.7189      0.409     -1.757      0.092      -1.565       0.127
+CRR            0.4860      0.330      1.471      0.155      -0.198       1.170
+SLR            0.4101      0.229      1.793      0.086      -0.063       0.883
+==============================================================================
+Omnibus:                        0.108   Durbin-Watson:                   1.676
+Prob(Omnibus):                  0.948   Jarque-Bera (JB):                0.027
+Skew:                           0.017   Prob(JB):                        0.986
+Kurtosis:                       2.848   Cond. No.                         253.
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+Diagnostic Tests Results:
+Breusch-Godfrey LM Test p-value: 0.4895
+Breusch-Pagan-Godfrey Test p-value: 0.3659
+Jarque-Bera Test p-value: 0.9864
+
+Stationarity Test Results (ADF Test):
+
+Variable: WPI
+At Level - p-value: 0.0222
+At First Difference - p-value: 0.0000
+
+Variable: BANK_RATE
+At Level - p-value: 0.2836
+At First Difference - p-value: 0.0000
+
+Variable: CRR
+At Level - p-value: 0.4361
+At First Difference - p-value: 0.0000
+
+Variable: SLR
+At Level - p-value: 0.0073
+At First Difference - p-value: 0.3751
+
+Johansen Cointegration Test Results:
+
+Trace Test:
+  Hypothesized No. of CE(s)  Eigenvalue  ...  0.05 Critical Value       p-value
+0                      None    0.745669  ...              47.8545  4.848371e-18
+1                 At most 1    0.630723  ...              29.7961  1.740141e-11
+2                 At most 2    0.570056  ...              15.4943  7.519954e-07
+3                 At most 3    0.247190  ...               3.8415  7.714546e-03
+
+[4 rows x 5 columns]
+
+Eigenvalue Test:
+  Hypothesized No. of CE(s)  Eigenvalue  ...  0.05 Critical Value       p-value
+0                      None    0.745669  ...              27.5858  4.901982e-09
+1                 At most 1    0.630723  ...              21.1314  6.021878e-07
+2                 At most 2    0.570056  ...              14.2639  4.353596e-06
+3                 At most 3    0.247190  ...               3.8415  7.714546e-03
+
+[4 rows x 5 columns]
+
+Error Correction Model Results:
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                   DWPI   R-squared:                       0.632
+Model:                            OLS   Adj. R-squared:                  0.562
+Method:                 Least Squares   F-statistic:                     9.018
+Date:                Thu, 24 Apr 2025   Prob (F-statistic):           0.000211
+Time:                        20:42:17   Log-Likelihood:                -53.798
+No. Observations:                  26   AIC:                             117.6
+Df Residuals:                      21   BIC:                             123.9
+Df Model:                           4                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const         -0.0128      0.489     -0.026      0.979      -1.030       1.005
+DBANK_RATE     0.9345      0.503      1.857      0.077      -0.112       1.981
+DCRR           0.7085      0.354      2.003      0.058      -0.027       1.444
+DSLR          -0.1307      0.303     -0.431      0.671      -0.761       0.500
+U1_lag1       -0.9715      0.188     -5.179      0.000      -1.362      -0.581
+==============================================================================
+Omnibus:                        0.064   Durbin-Watson:                   2.235
+Prob(Omnibus):                  0.968   Jarque-Bera (JB):                0.272
+Skew:                          -0.061   Prob(JB):                        0.873
+Kurtosis:                       2.514   Cond. No.                         3.25
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+ECM Model - R²: 0.6320, DW: 2.2346
+Is model spurious? No
+Exogeneous lags: {'BANK_RATE': [0, 1, 2, 3, 4], 'CRR': [0, 1, 2, 3], 'SLR': [0, 1, 2]}
+Lags included in model: [1, 2]
+Exogeneous lags: {'BANK_RATE': [0, 1, 2, 3, 4], 'CRR': [0, 1, 2, 3], 'SLR': [0, 1, 2]}
+Lags included in model: [1, 2]
+
+======================= ARDL MODEL INFORMATION =======================
+
+ARDL Model Summary:
+                              ARDL Model Results                              
+==============================================================================
+Dep. Variable:                    WPI   No. Observations:                   27
+Model:               ARDL(2, 4, 3, 2)   Log Likelihood                 -32.854
+Method:               Conditional MLE   S.D. of innovations              0.901
+Date:                Thu, 24 Apr 2025   AIC                             97.709
+Time:                        20:42:17   BIC                            117.211
+Sample:                    01-01-1970   HQIC                           103.118
+                         - 01-01-1970                                         
+================================================================================
+                   coef    std err          z      P>|z|      [0.025      0.975]
+--------------------------------------------------------------------------------
+const            8.0839      7.951      1.017      0.333      -9.633      25.801
+WPI.L1          -0.4855      0.305     -1.594      0.142      -1.164       0.193
+WPI.L2          -0.3006      0.325     -0.925      0.377      -1.024       0.423
+BANK_RATE.L0     1.2956      0.774      1.673      0.125      -0.430       3.021
+BANK_RATE.L1    -0.6883      0.617     -1.116      0.291      -2.063       0.686
+BANK_RATE.L2    -1.7890      0.688     -2.599      0.027      -3.323      -0.255
+BANK_RATE.L3    -1.7703      0.613     -2.888      0.016      -3.136      -0.404
+BANK_RATE.L4     0.6937      0.671      1.034      0.325      -0.801       2.189
+CRR.L0           0.3323      0.442      0.753      0.469      -0.652       1.316
+CRR.L1           0.9083      0.494      1.839      0.096      -0.192       2.009
+CRR.L2          -0.3862      0.489     -0.789      0.448      -1.477       0.704
+CRR.L3           0.7062      0.363      1.947      0.080      -0.102       1.514
+SLR.L0          -0.5860      0.335     -1.748      0.111      -1.333       0.161
+SLR.L1           0.2429      0.427      0.569      0.582      -0.708       1.194
+SLR.L2           0.6571      0.426      1.541      0.154      -0.293       1.607
+================================================================================
+
+ARDL Selected Order Information:
+Information criterion value: AIC
+94.369996        (2, {'BANK_RATE': 4, 'CRR': 3, 'SLR': 2})
+94.637962        (2, {'BANK_RATE': 3, 'CRR': 3, 'SLR': 4})
+94.708747        (1, {'BANK_RATE': 4, 'CRR': 3, 'SLR': 2})
+94.928973        (2, {'BANK_RATE': 3, 'CRR': 4, 'SLR': 2})
+95.255034        (2, {'BANK_RATE': 3, 'CRR': 3, 'SLR': 2})
+                                  ...                     
+126.270270       (1, {'BANK_RATE': 0, 'CRR': 4, 'SLR': 4})
+126.334148    (2, {'BANK_RATE': None, 'CRR': 3, 'SLR': 2})
+127.372097    (None, {'BANK_RATE': 0, 'CRR': 4, 'SLR': 4})
+127.379084    (2, {'BANK_RATE': None, 'CRR': 4, 'SLR': 2})
+127.732028    (2, {'BANK_RATE': None, 'CRR': 4, 'SLR': 4})
+Name: AIC, Length: 1080, dtype: object
+Endogenous (AR) lags: [1, 2]
+Exogenous variable lags: {'BANK_RATE': [0, 1, 2, 3, 4], 'CRR': [0, 1, 2, 3], 'SLR': [0, 1, 2]}
+
+ARDL Predictions:
+First 5 fitted values: 1970-01-01 00:00:00.000001991         NaN
+1970-01-01 00:00:00.000001992         NaN
+1970-01-01 00:00:00.000001993         NaN
+1970-01-01 00:00:00.000001994         NaN
+1970-01-01 00:00:00.000001995    7.863145
+Freq: ns, dtype: float64
+
+ARDL Residuals:
+First 5 residuals: 1995    0.136855
+1996    0.929088
+1997   -0.261560
+1998   -0.242895
+1999   -0.486370
+dtype: float64
+Residual statistics - Mean: 0.000000, Std: 0.959980
+
+ARDL Coefficients with Confidence Intervals:
+                  coef     lower      upper
+const         8.083858 -9.633057  25.800772
+WPI.L1       -0.485531 -1.164282   0.193220
+WPI.L2       -0.300590 -1.024377   0.423196
+BANK_RATE.L0  1.295642 -0.429883   3.021167
+BANK_RATE.L1 -0.688255 -2.062879   0.686369
+BANK_RATE.L2 -1.789000 -3.322839  -0.255162
+BANK_RATE.L3 -1.770279 -3.136307  -0.404251
+BANK_RATE.L4  0.693729 -0.801176   2.188634
+CRR.L0        0.332300 -0.651558   1.316159
+CRR.L1        0.908323 -0.192443   2.009089
+CRR.L2       -0.386194 -1.476714   0.704326
+CRR.L3        0.706184 -0.101871   1.514239
+SLR.L0       -0.585992 -1.333003   0.161019
+SLR.L1        0.242910 -0.707820   1.193640
+SLR.L2        0.657088 -0.293025   1.607200
+
+ARDL Model Diagnostic Tests:
+Jarque-Bera Test - Statistic: 4.5279, p-value: 0.1039
